@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import Fuse from "fuse.js";
-import { Modal } from "./Modal";
+import Fuse from 'fuse.js';
+import { Modal } from './Modal';
 import { ISearchResultProps } from './SearchResult';
-import { SearchResults } from "./SearchResults";
-import { useSearchParams } from "react-router-dom";
+import { SearchResults } from './SearchResults';
+import { useSearchParams } from 'react-router-dom';
 
 interface ISearchDataProps {
   id: number;
@@ -21,43 +21,55 @@ interface ISearchModalProps {
 
 const renderMatchLine = (match: any) => {
   if (!match) {
-      return null;
+    return null;
   }
   const value = match.value;
   const spans = [];
   for (let i = 0; i < match.indices.length; i++) {
-      const curInd = match.indices[i];
-      const nextInd = match.indices[i + 1];
-      const matchedVal = <span className="bg-yellow-200" key={`match-index-highlight-${i}`}>{value.substring(curInd[0], curInd[1] + 1)}</span>;
-      const remaining = <span key={`match-index-${i}`}>{value.substring(curInd[1] + 1, nextInd && nextInd[0] || value.length)}</span>;
-      spans.push(matchedVal);
-      spans.push(remaining);
+    const curInd = match.indices[i];
+    const nextInd = match.indices[i + 1];
+    const matchedVal = (
+      <span className="tw-bg-yellow-200" key={`match-index-highlight-${i}`}>
+        {value.substring(curInd[0], curInd[1] + 1)}
+      </span>
+    );
+    const remaining = (
+      <span key={`match-index-${i}`}>
+        {value.substring(
+          curInd[1] + 1,
+          (nextInd && nextInd[0]) || value.length
+        )}
+      </span>
+    );
+    spans.push(matchedVal);
+    spans.push(remaining);
   }
   spans.push(<span>...</span>);
-  return (
-      <p>
-          {spans.map((d, idx) => d)}
-      </p>
-  );
-}
+  return <p>{spans.map((d, idx) => d)}</p>;
+};
 
-export const SearchModal = ({ modal, searchOptions, searchData, placeholder }: ISearchModalProps) => {
+export const SearchModal = ({
+  modal,
+  searchOptions,
+  searchData,
+  placeholder,
+}: ISearchModalProps) => {
   const [params, setParams] = useSearchParams();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<ISearchResultProps[] | undefined>();
 
-  const performSearch = ( query: string ): ISearchResultProps[] => {
+  const performSearch = (query: string): ISearchResultProps[] => {
     const fuse = new Fuse(searchData, searchOptions);
     let searchResults = fuse.search(query);
-    return searchResults.map( (result: any) => {
+    return searchResults.map((result: any) => {
       return {
         id: result.item.id,
         title: result.item.title,
         snippet: result.matches.map((match: any) => renderMatchLine(match)),
-        link: result.item.link
-      }
+        link: result.item.link,
+      };
     });
-  }
+  };
 
   const inputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
@@ -67,25 +79,25 @@ export const SearchModal = ({ modal, searchOptions, searchData, placeholder }: I
 
   return (
     <modal.Frame
-      open={!!params.get("modal")}
+      open={!!params.get('modal')}
       onClose={() => {
-        params.delete("modal");
+        params.delete('modal');
         setParams(params);
       }}
     >
       <modal.Head>Search this guide</modal.Head>
       <modal.Body>
-        <div className="flex flex-row">
-          <div className='basis-3/4'>
+        <div className="tw-flex tw-flex-row">
+          <div className="tw-basis-3/4">
             <input
-              className="text-gray-800 border-2 border-black focus:border-blue-300 p-1"
+              className="tw-text-gray-800 tw-border-2 tw-border-black tw-focus:border-blue-300 tw-p-1"
               placeholder="Search terms"
               value={query}
               onChange={inputHandler}
             />
           </div>
-          <div className='basis-1/4'>
-            <button className="text-gray-100 border-2 border-blue-700 bg-blue-600 rounded shadow-xl p-2 outline-none focus:border-blue-300">
+          <div className="basis-1/4">
+            <button className="tw-text-gray-100 tw-border-2 tw-border-blue-700 tw-bg-blue-600 tw-rounded tw-shadow-xl tw-p-2 tw-outline-none focus:tw-border-blue-300">
               Search
             </button>
           </div>
