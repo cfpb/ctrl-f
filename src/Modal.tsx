@@ -16,7 +16,7 @@ const Frame = ({
   closeOnClickOutside = true,
   closeOnEsc = true,
   onClose,
-  open = true,
+  open = true
 }: IFrameProps): JSX.Element => {
   const portal = usePortal();
   const previousFocus = useRef<HTMLElement | null>(null);
@@ -42,6 +42,16 @@ const Frame = ({
           nextFocus(getFocusableElements(container.current), !e.shiftKey);
           break;
         }
+        case 'ArrowDown': {
+          e.preventDefault();
+          nextFocus(getFocusableElements(container.current));
+          break;
+        }
+        case 'ArrowUp': {
+          e.preventDefault();
+          nextFocus(getFocusableElements(container.current), false);
+          break;
+        }
       }
     };
 
@@ -51,9 +61,7 @@ const Frame = ({
 
   useEffect(() => {
     // aria-hidden
-    document
-      .getElementById('root')
-      ?.setAttribute('aria-hidden', open.toString());
+    document.getElementById('root')?.setAttribute('aria-hidden', open.toString());
     portal.current?.setAttribute('aria-hidden', (!open).toString());
 
     if (open) {
@@ -63,34 +71,18 @@ const Frame = ({
       previousFocus.current?.focus?.();
       previousFocus.current = null;
     }
-  }, [open, portal]); // note: when importing, eslint doesn't recognize that portal is a ref, so it doesn't need to be in the deps array
+  }, [open, portal]);
 
   return ReactDOM.createPortal(
-    // transparent overlay: `inset-0` to stretch over the entire screen (combines`top-0`, `right-0`, `bottom-0`, and `left-0`)
     <div
       className={classNames(
-        'tw-fixed tw-inset-0 tw-z-10 tw-p-8 bg-gray-600/90',
-        `${open ? 'tw-visible' : 'tw-invisible'}` // control visibility via `open` attribute (or render conditionally)
+        'tw-fixed tw-inset-0 tw-z-10 tw-p-8 tw-bg-gray-600/90',
+        `${open ? 'tw-visible' : 'tw-invisible'}`
       )}
       onClick={closeOnClickOutside ? onOverlayClick : undefined}
-    >
-      {/* container: `max-w-sm` to make it reasonably narrow, `mx-auto` to center horizontally */}
-      <div
-        className="tw-relative tw-w-full tw-max-w-lg tw-mx-auto tw-mt-8"
-        ref={container}
-      >
-        {/* contents */}
-        <div className="tw-bg-white tw-rounded tw-shadow-xl">{children}</div>
-        {/* closer in the corner */}
-        <button
-          className="tw-absolute -top-2 -right-2 flex justify-center rounded-full h-8 w-8 bg-white cursor-pointer shadow-xl outline-none border-2 border-gray-600 focus:border-blue-300"
-          onClick={() => onClose()}
-          title="Bye bye 👋"
-        >
-          <span className="tw-text-2xl tw-leading-6 tw-select-none">
-            &times;
-          </span>
-        </button>
+      id="ctrl-f-modal">
+      <div className="tw-relative tw-w-full tw-max-w-4xl tw-mx-auto tw-mt-8" ref={container}>
+        <div className="tw-bg-white tw-rounded tw-shadow-xl tw-max-h-[90vh]">{children}</div>
       </div>
     </div>,
     portal.current

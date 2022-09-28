@@ -5,7 +5,7 @@ export const parseData = (elements: NodeListOf<HTMLElement>) => {
     const heading = element.querySelector('.o-fig_heading') as HTMLElement;
     return {
       title: heading != null ? heading.innerText : '',
-      contents: (element as HTMLElement).innerText.split('\n\n').join(' '),
+      contents: (element as HTMLElement).innerText.split('\n\n').join(' ')
     };
   });
   return data;
@@ -23,16 +23,12 @@ export const usePortal = () => {
   return portal;
 };
 
-export const getFocusableElements = (
-  parent?: HTMLElement | null
-): HTMLElement[] => {
+export const getFocusableElements = (parent?: HTMLElement | null): HTMLElement[] => {
   if (!parent) return [];
 
   return (
     Array.from(
-      parent.querySelectorAll(
-        'a[href], button, input, textarea, select, details,[tabindex]'
-      )
+      parent.querySelectorAll('a[href], button, input, textarea, select, details,[tabindex]')
     )
       .filter(
         (el) =>

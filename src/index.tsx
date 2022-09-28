@@ -1,22 +1,45 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
+import { Button } from './Button';
+import { ISearchDataProps, SearchModal } from './SearchModal';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('ctrl-f') as HTMLElement
-);
-root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </React.StrictMode>
-);
+interface ICtrlFProps {
+  searchData: ISearchDataProps[];
+  searchOptions?: object;
+  placeholder?: string;
+  buttonText?: string;
+}
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+const defaultSearchOptions = {
+  keys: ['contents'],
+  includeMatches: true,
+  includeScore: true,
+  threshold: 0.5
+};
+
+const CtrlF = ({
+  searchData,
+  searchOptions = defaultSearchOptions,
+  placeholder = 'Enter search terms',
+  buttonText = 'Search this page'
+}: ICtrlFProps): JSX.Element => {
+  return (
+    <React.StrictMode>
+      <BrowserRouter>
+        <Button text={buttonText} />
+        <SearchModal
+          searchData={searchData}
+          searchOptions={searchOptions}
+          placeholder={placeholder}
+        />
+      </BrowserRouter>
+    </React.StrictMode>
+  );
+};
+
+export const init = (container: HTMLElement | null, props: ICtrlFProps): void => {
+  if (!container) return;
+  ReactDOM.createRoot(container).render(<CtrlF {...props} />);
+};
