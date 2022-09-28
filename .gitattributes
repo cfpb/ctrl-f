@@ -1,1 +1,3 @@
 example/* linguist-vendored
+scripts/* linguist-vendored
+config/* linguist-vendored
