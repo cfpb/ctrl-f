@@ -1,7 +1,6 @@
 {
   "name": "ctrl-f",
   "version": "1.0.0",
-  "private": true,
   "main": "dist/js/index.js",
   "dependencies": {
     "@babel/core": "^7.16.0",
