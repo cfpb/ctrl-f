@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import Fuse from 'fuse.js';
 import { Modal } from './Modal';
 import { ISearchResultProps } from './SearchResult';
 import { SearchResults } from './SearchResults';
-import { useSearchParams } from 'react-router-dom';
+import { getSnippetStart, getSnippetEnd } from './utils';
 
 export interface ISearchDataProps {
   id: number;
@@ -14,35 +15,39 @@ export interface ISearchDataProps {
 
 interface ISearchModalProps {
   modal?: typeof Modal;
-  searchOptions: object;
+  searchOptions: Fuse.IFuseOptions<object>;
   searchData: ISearchDataProps[];
   placeholder?: string;
+  maxResults?: number;
 }
 
 const renderMatchLine = (match: any, i: number) => {
   if (!match) {
     return null;
   }
+  // Show longest matches first
+  match.indices = match.indices.sort((a: number[], b: number[]) => {
+    return b[1] - b[0] - (a[1] - a[0]);
+  });
   const value = match.value;
   const spans = [];
   for (let i = 0; i < match.indices.length; i++) {
     const curInd = match.indices[i];
-    const nextInd = match.indices[i + 1];
+    const start = getSnippetStart(value, curInd[0], 20);
+    const end = getSnippetEnd(value, curInd[1], 20);
+    const preVal = <span key={`match-index-${i}`}>{value.substring(start, curInd[0])}</span>;
     const matchedVal = (
       <span className="tw-bg-yellow-200" key={`match-index-highlight-${i}`}>
         {value.substring(curInd[0], curInd[1] + 1)}
       </span>
     );
-    const remaining = (
-      <span key={`match-index-${i}`}>
-        {value.substring(curInd[1] + 1, (nextInd && nextInd[0]) || value.length)}
-      </span>
-    );
+    const postVal = <span key={`match-index-${i}`}>{value.substring(curInd[1] + 1, end)}... </span>;
+    spans.push(preVal);
     spans.push(matchedVal);
-    spans.push(remaining);
+    spans.push(postVal);
   }
   return (
-    <p key={`snippet-${i}`} className="tw-whitespace-nowrap tw-text-ellipsis tw-overflow-hidden">
+    <p key={`snippet-${i}`} className="tw-line-clamp-3">
       {[...spans]}
     </p>
   );
@@ -52,13 +57,15 @@ export const SearchModal = ({
   modal = Modal,
   searchOptions,
   searchData,
-  placeholder
+  placeholder,
+  maxResults
 }: ISearchModalProps) => {
   const [params, setParams] = useSearchParams();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<ISearchResultProps[] | undefined>();
 
   const performSearch = (query: string): ISearchResultProps[] => {
+    searchOptions.minMatchCharLength = Math.ceil(query.length / 2);
     const fuse = new Fuse(searchData, searchOptions);
     let searchResults = fuse.search(query);
     return searchResults.map((result: any) => {
@@ -73,7 +80,7 @@ export const SearchModal = ({
 
   const inputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
-    const searchResults = performSearch(event.target.value);
+    const searchResults = performSearch(event.target.value).slice(0, maxResults);
     setResults(searchResults);
   };
 

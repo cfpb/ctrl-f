@@ -36,6 +36,6 @@ test('renders the search modal', () => {
       <SearchModal searchData={DUMMY_SEARCH_DATA} searchOptions={defaultSearchOptions} />
     </BrowserRouter>
   );
-  const modalElement = screen.getByText(/Search results:/i);
+  const modalElement = screen.getByText(/Search results/i);
   expect(modalElement).toBeInTheDocument();
 });

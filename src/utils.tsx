@@ -1,5 +1,52 @@
 import { useEffect, useRef } from 'react';
 
+/**
+ * Returns a reasonable starting point when generating a search result
+ * text snippet.
+ *
+ * @remarks
+ * Given a text string and the index of a keyword match within that string,
+ * traverse backwards from the index until a space character is found,
+ * returning the index of the character.
+ *
+ * If no space is found or the match is close to the start of the string,
+ * return the original match location.
+ *
+ * @param text - Text string
+ * @param matchLocation - Index of keyword match within text string
+ * @param distance - How far backwards to traverse
+ * @returns Index denoting the start of the snippet
+ *
+ */
+export const getSnippetStart = (text: string, matchLocation: number, distance = 10): number => {
+  const snippetStart = text.lastIndexOf(' ', matchLocation - distance) + 1;
+  if (snippetStart === 0 || matchLocation <= distance) return 0;
+  return snippetStart;
+};
+
+/**
+ * Returns a reasonable ending point when generating a search result
+ * text snippet.
+ *
+ * @remarks
+ * Given a text string and the index of the end of the keyword match within
+ * that string, search forward from the index until a space character is found,
+ * returning the index of the character.
+ *
+ * If no space is found, return the index of the string's last character.
+ *
+ * @param text - Text string
+ * @param matchEndLocation - Index of end of keyword match within text string
+ * @param distance - How far past the end of the match to traverse
+ * @returns Index denoting the end of the snippet
+ *
+ */
+export const getSnippetEnd = (text: string, matchEndLocation: number, distance = 20): number => {
+  const snippetEnd = text.indexOf(' ', matchEndLocation + distance) - 1;
+  if (snippetEnd < 0) return text.length - 1;
+  return snippetEnd;
+};
+
 export const parseData = (elements: NodeListOf<HTMLElement>) => {
   const data = Array.from(elements).map((element: HTMLElement) => {
     const heading = element.querySelector('.o-fig_heading') as HTMLElement;
