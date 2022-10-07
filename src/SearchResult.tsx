@@ -21,7 +21,7 @@ export const SearchResult = ({ id, title, snippet, link }: ISearchResultProps): 
         className="tw-text-black tw-block tw-border-0 tw-border-black tw-mb-2 tw-p-4 tw-rounded focus:tw-p-3.5 focus:tw-outline-0 focus:tw-border-2 hover:tw-border-2 hover:tw-text-black hover:tw-border-black hover:tw-p-3.5"
         href={link}
         onClick={clickHandler}>
-        <h4 className="tw-font-bold">{title}</h4>
+        <h4 className="tw-font-medium">{title}</h4>
         <div>{snippet}</div>
       </a>
     </li>
