@@ -5,14 +5,22 @@ export interface ISearchResultProps {
   title: string;
   snippet: string;
   link: string;
+  onFollow?: (event: React.MouseEvent<HTMLAnchorElement>) => null;
 }
 
-export const SearchResult = ({ id, title, snippet, link }: ISearchResultProps): JSX.Element => {
+export const SearchResult = ({
+  id,
+  title,
+  snippet,
+  link,
+  onFollow = () => null
+}: ISearchResultProps): JSX.Element => {
   const [params, setParams] = useSearchParams();
 
   const clickHandler = (event: React.MouseEvent<HTMLAnchorElement>) => {
     params.delete('search');
     setParams(params);
+    onFollow(event);
   };
 
   return (

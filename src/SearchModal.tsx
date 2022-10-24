@@ -19,6 +19,8 @@ interface ISearchModalProps {
   searchData: ISearchDataProps[];
   placeholder?: string;
   maxResults?: number;
+  onClose?: () => null;
+  onFollow?: () => null;
 }
 
 const renderMatchLine = (match: any, i: number) => {
@@ -58,7 +60,9 @@ export const SearchModal = ({
   searchOptions,
   searchData,
   placeholder,
-  maxResults
+  maxResults,
+  onClose = () => null,
+  onFollow = () => null
 }: ISearchModalProps) => {
   const [params, setParams] = useSearchParams();
   const [query, setQuery] = useState('');
@@ -73,7 +77,8 @@ export const SearchModal = ({
         id: result.item.id,
         title: result.item.title,
         snippet: result.matches.map((match: any, i: number) => renderMatchLine(match, i)),
-        link: result.item.link
+        link: result.item.link,
+        onFollow: onFollow
       };
     });
   };
@@ -90,6 +95,7 @@ export const SearchModal = ({
       onClose={() => {
         params.delete('search');
         setParams(params);
+        onClose();
       }}>
       <modal.Body>
         <label className="tw-relative tw-focus-within:text-gray-600 tw-block tw-text-2xl">

@@ -29,4 +29,12 @@ sections.forEach((section, i) => {
   });
 });
 
-init(container, { searchOptions, placeholder, buttonText, searchData });
+const onClose = () => {
+  console.log( 'search modal closed!' );
+};
+
+const onFollow = () => {
+  console.log( 'a search result was followed (clicked/tapped/enter\'ed)!' );
+};
+
+init(container, { searchOptions, placeholder, buttonText, searchData, onClose, onFollow });

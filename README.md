@@ -24,11 +24,20 @@ const searchData = [
     contents: 'Metamorphosis tells the story of salesman who wakes to find himself transformed into a huge insect and struggles to adjust to this new condition.'
     link: '#metamorphosis'
   }
-]
+];
+
+
+const onClose = () => {
+  console.log( 'search modal closed!' );
+};
+
+const onFollow = () => {
+  console.log( 'a search result was followed (clicked/tapped)!' );
+};
 
 // Adds a "Search this page" button to the specified container element
 // Clicking the button opens the search modal interface
-search( document.querySelector('#container'), { buttonText, searchData } );
+search( document.querySelector('#container'), { buttonText, searchData, onClose, onFollow } );
 ```
 
 ## Options

@@ -15,6 +15,7 @@ export const SearchResults = ({ results }: ISearchResultsProps): JSX.Element => 
               title={result.title}
               snippet={result.snippet}
               link={result.link}
+              onFollow={result.onFollow}
             />
           ))
         : ''}
