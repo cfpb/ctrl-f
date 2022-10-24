@@ -114,7 +114,7 @@ export const SearchModal = ({
             className="tw-form-input tw-border tw-border-gray-900 tw-py-3 tw-px-4 tw-bg-white tw-appearance-none tw-w-full tw-block tw-pl-12 focus:tw-outline-none"
           />
         </label>
-        <div className={`${results?.length ? '' : 'tw-hidden'}`}>
+        <div className={`${results?.length ? '' : 'tw-hidden'}`} id="ctrl-f-search-results">
           <h3 className="tw-m-4 tw-text-[#4F5257]">Search results</h3>
           <div className="tw-overflow-y-auto tw-max-h-[70vh]">
             <SearchResults results={results} />
