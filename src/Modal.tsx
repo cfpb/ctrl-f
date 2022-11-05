@@ -60,9 +60,10 @@ const Frame = ({
   }, [closeOnEsc, onClose, open]);
 
   useEffect(() => {
-    // aria-hidden
-    document.getElementById('root')?.setAttribute('aria-hidden', open.toString());
-    portal.current?.setAttribute('aria-hidden', (!open).toString());
+    // Nowadays `aria-modal` and `inert` are preferred over `aria-hidden`
+    document.getElementById('root')?.setAttribute('inert', '');
+    portal.current?.setAttribute('role', 'dialog');
+    portal.current?.setAttribute('aria-modal', 'true');
 
     if (open) {
       previousFocus.current = (document.activeElement as HTMLElement) ?? null;
@@ -80,15 +81,13 @@ const Frame = ({
         `${open ? 'tw-visible' : 'tw-invisible'}`
       )}
       onClick={closeOnClickOutside ? onOverlayClick : undefined}
-      id="ctrl-f-modal"
-    >
+      id="ctrl-f-modal">
       <div className="tw-relative tw-w-full tw-max-w-4xl tw-mx-auto tw-mt-8" ref={container}>
         <div className="tw-bg-white tw-rounded tw-shadow-xl tw-max-h-[90vh]">{children}</div>
         <button
           className="tw-absolute tw--top-2 tw--right-2 tw-flex tw-justify-center tw-rounded-full tw-h-8 tw-w-8 tw-bg-white tw-cursor-pointer tw-shadow-xl tw-outline-none tw-border-2 tw-border-gray-600"
           onClick={() => onClose()}
-          title="Close search tool"
-        >
+          title="Close search tool">
           <span className="text-2xl leading-6 select-none">&times;</span>
         </button>
       </div>
