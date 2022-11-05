@@ -101,16 +101,14 @@ export const SearchModal = ({
         params.delete('search');
         setParams(params);
         onClose();
-      }}
-    >
+      }}>
       <modal.Body>
-        <label className="tw-relative tw-focus-within:text-gray-600 tw-block tw-text-2xl">
+        <label className="tw-relative tw-focus-within:text-gray-600 tw-block tw-text-xl">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="tw-pointer-events-none tw-w-8 tw-h-8 tw-absolute tw-top-1/2 tw-transform tw--translate-y-1/2 tw-left-3"
             viewBox="0 0 20 20"
-            fill="currentColor"
-          >
+            fill="currentColor">
             <path d="M14.147 15.488a1.112 1.112 0 0 1-1.567 0l-3.395-3.395a5.575 5.575 0 1 1 1.568-1.568l3.394 3.395a1.112 1.112 0 0 1 0 1.568zm-6.361-3.903a4.488 4.488 0 1 0-1.681.327 4.443 4.443 0 0 0 1.68-.327z" />
           </svg>
           <input
@@ -126,11 +124,17 @@ export const SearchModal = ({
             onClick={clickHandler}
             className={`${
               query?.length ? '' : 'tw-hidden '
-            }tw-border tw-rounded tw-text-sm tw-border-gray-600 tw-p-1 tw-absolute tw-top-1/2 tw-transform tw--translate-y-1/2 tw-right-3`}
-          >
+            }tw-border tw-rounded tw-text-sm tw-border-gray-600 tw-p-1 tw-absolute tw-top-1/2 tw-transform tw--translate-y-1/2 tw-right-3`}>
             CLEAR
           </button>
         </label>
+        <div
+          className={`${query?.length && !results?.length ? '' : 'tw-hidden'}`}
+          id="ctrl-f-search-results">
+          <h3 className="tw-m-4 tw-text-[#4F5257]">
+            No results found. Try entering a different search term above.
+          </h3>
+        </div>
         <div className={`${results?.length ? '' : 'tw-hidden'}`} id="ctrl-f-search-results">
           <h3 className="tw-m-4 tw-text-[#4F5257]">Search results</h3>
           <div className="tw-overflow-y-auto tw-max-h-[70vh]">

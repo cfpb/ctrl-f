@@ -77,18 +77,18 @@ const Frame = ({
   return ReactDOM.createPortal(
     <div
       className={classNames(
-        'tw-fixed tw-inset-0 tw-z-10 tw-p-8 tw-bg-gray-600/90',
+        'tw-fixed tw-inset-0 tw-z-10 tw-p-4 md:tw-p-8 tw-bg-gray-600/90',
         `${open ? 'tw-visible' : 'tw-invisible'}`
       )}
       onClick={closeOnClickOutside ? onOverlayClick : undefined}
       id="ctrl-f-modal">
-      <div className="tw-relative tw-w-full tw-max-w-4xl tw-mx-auto tw-mt-8" ref={container}>
+      <div className="tw-relative tw-w-full tw-max-w-4xl tw-mx-auto md:tw-mt-8" ref={container}>
         <div className="tw-bg-white tw-rounded tw-shadow-xl tw-max-h-[90vh]">{children}</div>
         <button
           className="tw-absolute tw--top-2 tw--right-2 tw-flex tw-justify-center tw-rounded-full tw-h-8 tw-w-8 tw-bg-white tw-cursor-pointer tw-shadow-xl tw-outline-none tw-border-2 tw-border-gray-600"
           onClick={() => onClose()}
           title="Close search tool">
-          <span className="text-2xl leading-6 select-none">&times;</span>
+          <span className="tw-text-2xl tw-leading-6 tw-select-none">&times;</span>
         </button>
       </div>
     </div>,
