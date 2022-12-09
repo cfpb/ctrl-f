@@ -68,6 +68,8 @@ const Frame = ({
     if (open) {
       previousFocus.current = (document.activeElement as HTMLElement) ?? null;
       nextFocus(getFocusableElements(container.current));
+      // Skip the modal's close button on open
+      nextFocus(getFocusableElements(container.current));
     } else {
       previousFocus.current?.focus?.();
       previousFocus.current = null;
@@ -82,14 +84,18 @@ const Frame = ({
       )}
       onClick={closeOnClickOutside ? onOverlayClick : undefined}
       id="ctrl-f-modal">
-      <div className="tw-relative tw-w-full tw-max-w-4xl tw-mx-auto md:tw-mt-8" ref={container}>
-        <div className="tw-bg-white tw-rounded tw-shadow-xl tw-max-h-[90vh]">{children}</div>
+      <div
+        className="tw-relative tw-w-full tw-max-w-[42em] tw-mx-auto md:tw-mt-8 tw-bg-white tw-shadow-xl tw-max-h-[90vh]"
+        ref={container}>
         <button
-          className="tw-absolute tw--top-2 tw--right-2 tw-flex tw-justify-center tw-rounded-full tw-h-8 tw-w-8 tw-bg-white tw-cursor-pointer tw-shadow-xl tw-outline-none tw-border-2 tw-border-gray-600"
+          className="tw-absolute tw-top-2 tw-right-3 tw-border-0 a-btn__link tw-text-black"
           onClick={() => onClose()}
           title="Close search tool">
-          <span className="tw-text-2xl tw-leading-6 tw-select-none">&times;</span>
+          <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 12 19">
+            <path d="M11.383 13.644A1.03 1.03 0 0 1 9.928 15.1L6 11.172 2.072 15.1a1.03 1.03 0 1 1-1.455-1.456l3.928-3.928L.617 5.79a1.03 1.03 0 1 1 1.455-1.456L6 8.261l3.928-3.928a1.03 1.03 0 0 1 1.455 1.456L7.455 9.716z"></path>
+          </svg>
         </button>
+        <div>{children}</div>
       </div>
     </div>,
     portal.current
@@ -103,7 +109,7 @@ const Head = ({ children }: { children?: React.ReactNode }): JSX.Element => (
 );
 
 const Body = ({ children }: { children?: React.ReactNode }): JSX.Element => (
-  <div className="tw-p-4">{children}</div>
+  <div className="tw-p-6 tw-pr-2">{children}</div>
 );
 
 export const Modal = { Frame, Head, Body };
