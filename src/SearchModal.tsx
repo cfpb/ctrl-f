@@ -131,9 +131,7 @@ export const SearchModal = ({
             Clear <span className="tw-hidden md:tw-inline">search</span>
           </button>
         </label>
-        <div
-          className={`${query?.length && !results?.length ? '' : 'tw-hidden'}`}
-          id="ctrl-f-search-results">
+        <div className={`${query?.length && !results?.length ? '' : 'tw-hidden'}`}>
           <h3 className="tw-m-4 tw-text-[#4F5257]">
             No results found. Try entering a different search term above.
           </h3>

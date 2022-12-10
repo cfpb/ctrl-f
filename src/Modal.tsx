@@ -89,6 +89,7 @@ const Frame = ({
         ref={container}>
         <button
           className="tw-absolute tw-top-2 tw-right-3 tw-border-0 a-btn__link tw-text-black"
+          id="ctrl-f-close-button"
           onClick={() => onClose()}
           title="Close search tool">
           <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 12 19">
