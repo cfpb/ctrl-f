@@ -13,7 +13,5 @@ module.exports = {
       xl: '1231px'
     }
   },
-  plugins: [
-    require('@tailwindcss/line-clamp')
-  ]
+  plugins: [require('@tailwindcss/line-clamp')]
 };

@@ -30,11 +30,11 @@ sections.forEach((section, i) => {
 });
 
 const onClose = () => {
-  console.log( 'search modal closed!' );
+  console.log('search modal closed!');
 };
 
 const onFollow = () => {
-  console.log( 'a search result was followed (clicked/tapped/enter\'ed)!' );
+  console.log("a search result was followed (clicked/tapped/enter'ed)!");
 };
 
 init(container, { searchOptions, placeholder, buttonText, searchData, onClose, onFollow });
