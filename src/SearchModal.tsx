@@ -5,6 +5,7 @@ import { Modal } from './Modal';
 import { ISearchResultProps } from './SearchResult';
 import { SearchResults } from './SearchResults';
 import { getSnippetStart, getSnippetEnd } from './utils';
+import { useDebouncedCallback } from 'use-debounce';
 
 export interface ISearchDataProps {
   id: number;
@@ -86,11 +87,11 @@ export const SearchModal = ({
     });
   };
 
-  const inputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(event.target.value);
-    const searchResults = performSearch(event.target.value).slice(0, maxResults);
+  const debouncedInputHandler = useDebouncedCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
+    const searchResults = performSearch(e.target.value).slice(0, maxResults);
     setResults(searchResults);
-  };
+  }, 300);
 
   const clickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
     setQuery('');
@@ -125,8 +126,7 @@ export const SearchModal = ({
             id="ctrl-f-search-input"
             placeholder={placeholder}
             ref={ref}
-            value={query}
-            onChange={inputHandler}
+            onChange={debouncedInputHandler}
             className="tw-py-2 tw-px-4 tw-block tw-pl-8 tw-w-3/4"
           />
           <button
