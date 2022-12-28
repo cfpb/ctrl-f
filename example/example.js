@@ -37,4 +37,8 @@ const onFollow = () => {
   console.log("a search result was followed (clicked/tapped/enter'ed)!");
 };
 
-init(container, { searchOptions, placeholder, buttonText, searchData, onClose, onFollow });
+const onSubmit = query => {
+  console.log(`You searched for ${query}!`);
+};
+
+init(container, { searchOptions, placeholder, buttonText, searchData, onClose, onFollow, onSubmit });

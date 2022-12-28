@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Fuse from 'fuse.js';
 import { Modal } from './Modal';
@@ -21,6 +21,7 @@ interface ISearchModalProps {
   maxResults?: number;
   onClose?: () => null;
   onFollow?: () => null;
+  onSubmit?: (query: string) => null;
 }
 
 const renderMatchLine = (match: any, i: number) => {
@@ -62,7 +63,8 @@ export const SearchModal = ({
   placeholder,
   maxResults,
   onClose = () => null,
-  onFollow = () => null
+  onFollow = () => null,
+  onSubmit = (query: string) => null
 }: ISearchModalProps) => {
   const [params, setParams] = useSearchParams();
   const [query, setQuery] = useState('');
@@ -95,6 +97,12 @@ export const SearchModal = ({
     setResults([]);
     ref.current?.focus();
   };
+
+  useEffect(() => {
+    if (query.length) {
+      onSubmit(query);
+    }
+  }, [onSubmit, query]);
 
   return (
     <modal.Frame

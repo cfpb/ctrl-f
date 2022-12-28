@@ -13,6 +13,7 @@ interface ICtrlFProps {
   maxResults?: number;
   onClose?: () => null;
   onFollow?: () => null;
+  onSubmit?: (query: string) => null;
 }
 
 const defaultSearchOptions = {
@@ -29,7 +30,8 @@ const CtrlF = ({
   buttonText = 'Search this page',
   maxResults = 20,
   onClose,
-  onFollow
+  onFollow,
+  onSubmit
 }: ICtrlFProps): JSX.Element => {
   return (
     <React.StrictMode>
@@ -42,6 +44,7 @@ const CtrlF = ({
           maxResults={maxResults}
           onClose={onClose}
           onFollow={onFollow}
+          onSubmit={onSubmit}
         />
       </BrowserRouter>
     </React.StrictMode>
