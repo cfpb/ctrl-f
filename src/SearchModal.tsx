@@ -70,7 +70,7 @@ export const SearchModal = ({
   const [params, setParams] = useSearchParams();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<ISearchResultProps[] | undefined>();
-  const ref = useRef<HTMLInputElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   const performSearch = (query: string): ISearchResultProps[] => {
     searchOptions.minMatchCharLength = Math.ceil(query.length / 2);
@@ -96,7 +96,10 @@ export const SearchModal = ({
   const clickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
     setQuery('');
     setResults([]);
-    ref.current?.focus();
+    searchInputRef.current?.focus();
+    if (searchInputRef.current) {
+      searchInputRef.current.value = '';
+    }
   };
 
   useEffect(() => {
@@ -125,7 +128,7 @@ export const SearchModal = ({
           <input
             id="ctrl-f-search-input"
             placeholder={placeholder}
-            ref={ref}
+            ref={searchInputRef}
             onChange={debouncedInputHandler}
             className="tw-py-2 tw-px-4 tw-block tw-pl-8 tw-w-3/4"
           />
