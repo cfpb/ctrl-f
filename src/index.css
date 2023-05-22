@@ -2,11 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
+#ctrl-f-modal {
   box-sizing: border-box;
 }
-*,
-*:before,
-*:after {
+
+#ctrl-f-modal *,
+#ctrl-f-modal *:before,
+#ctrl-f-modal *:after {
   box-sizing: inherit;
 }
